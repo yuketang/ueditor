@@ -44,12 +44,15 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function(req, res
 
     // 下面填写你要把图片保存到的路径 （ 以 path.join(__dirname, 'public') 作为根路径）
     var img_url = 'yourpath';
-    res.ue_up(img_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+    res.ue_up(img_url, function(err, result){	// 上传
+      console.log(err, result);					// 上传结束后在这里可以对结果进行进一步处理
+      res.json(result)
+    });
   }
   //  客户端发起图片列表请求
   else if (req.query.action === 'listimage'){
     var dir_url = 'your img_dir'; // 要展示给客户端的文件夹路径
-    res.ue_list(dir_url) // 客户端会列出 dir_url 目录下的所有图片
+    res.ue_list(dir_url) // 客户端会列出 dir_url 目录下的所有图片,如果配置了qn，则会列出ueditor上传到七牛的最近30天的图片
   }
   // 客户端发起其它请求
   else {
@@ -58,7 +61,6 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function(req, res
     // 这里填写 ueditor.config.json 这个文件的路径
     res.redirect('/ueditor/ueditor.config.json')
 }}));
-
 ```
 ### 七牛上传
 ```javascript
@@ -86,12 +88,12 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), {
 
     var imgname = req.ueditor.filename;
 
-    
+
     res.ue_up(imgDir); //你只要输入要保存的地址 。保存操作交给ueditor来做
   }
   //  客户端发起图片列表请求
   else if (req.query.action === 'listimage'){
-    
+
     res.ue_list(imgDir);  // 客户端会列出 dir_url 目录下的所有图片
   }
   // 客户端发起其它请求
@@ -141,12 +143,12 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'),  ueditorConfig, f
 
     var imgname = req.ueditor.filename;
 
-    
+
     res.ue_up(imgDir); //你只要输入要保存的地址 。保存操作交给ueditor来做
   }
   //  客户端发起图片列表请求
   else if (req.query.action === 'listimage'){
-    
+
     res.ue_list(imgDir);  // 客户端会列出 dir_url 目录下的所有图片
   }
   // 客户端发起其它请求
@@ -185,7 +187,7 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function(req, res
     }
   //客户端发起图片列表请求
   else if (ActionType === 'listimage'){
-    
+
     res.ue_list(imgDir);  // 客户端会列出 dir_url 目录下的所有图片
   }
   // 客户端发起其它请求
@@ -200,17 +202,9 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function(req, res
 ```javascript
 app.use("/ueditor/ue", static_url, config = {}, callback);
 ```
-当config为空时，会默认把图片上传到 static_url + '/img/ueditor' 目录下。   
-比如例子“Usage”中图片会上传到项目的 public/img/ueditor 目录。  
+当config为空时，会默认把图片上传到 static_url + '/img/ueditor' 目录下。
+比如例子“Usage”中图片会上传到项目的 public/img/ueditor 目录。
 
-当配置了 config.qn 图片则只会上传到七牛服务器而不会上传到项目目录。    
-同时上传到七牛和项目目录，只需配置 config.local 即可
-```javascript
-config = {
-  qn: { ... },
-  local: true 
-}
-```
-
+当配置了 config.qn 图片则只会上传到七牛服务器而不会上传到项目目录。
 你可以来[ueditor:nodejs](http://blog.netpi.me/nodejs/ueditor-nodejs)给作者留言
 
