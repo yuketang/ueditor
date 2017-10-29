@@ -78,7 +78,7 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), {
         accessKey: 'your access key',
         secretKey: 'your secret key',
         bucket: 'your bucket name',
-        origin: 'http://{bucket}.u.qiniudn.com'
+        host: 'http://{bucket}.u.qiniudn.com'
     }
 }, function(req, res, next) {
   // ueditor 客户发起上传图片请求
