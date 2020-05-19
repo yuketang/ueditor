@@ -11,8 +11,8 @@
     "fdfs": "^1.0.4",
     "fs-extra": "^0.11.0",
     "moment": "^2.19.1",
-    "node-snowflake": "0.0.1",
-    "qiniu": "^7.1.0"
+    "qiniu": "^7.1.0",
+    "uuid": "^8.0.0"
   },
   "repository": {
     "type": "git",
